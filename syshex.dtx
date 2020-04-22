@@ -1,0 +1,470 @@
+% \iffalse meta-comment
+% !TEX program  = pdfLaTeX
+%<*internal> 
+\iffalse
+%</internal> 
+%<*readme> 
+----------------------------------------------------------------
+##### syshex --- Numeric timestamp, unique filename generation.
+- Source repository: https://github.com/rogard/syshex
+- Released under the LaTeX Project Public License v1.3c or later
+- See http://www.latex-project.org/lppl.txt
+----------------------------------------------------------------
+
+%</readme> 
+%<*internal> 
+\fi
+\def\nameofplainTeX{plain}
+\ifx\fmtname\nameofplainTeX\else
+\expandafter\begingroup
+\fi
+%</internal> 
+%<*install> 
+\input docstrip.tex
+\keepsilent
+\askforoverwritefalse
+\preamble
+----------------------------------------------------------------------------
+syshex --- Numeric timestamp, unique filename generation. 
+Released under the LaTeX Project Public License v1.3c or later
+See http://www.latex-project.org/lppl.txt
+----------------------------------------------------------------------------
+
+\endpreamble
+\postamble
+
+Copyright (C) 2020 by Erwann Rogard
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License (LPPL), either
+version 1.3c of this license or (at your option) any later
+version.  The latest version of this license is in the file:
+
+http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status) by
+Erwann Rogard.
+
+This work consists of the file syshex.dtx and the derived files:
+syshex.sty, and syshex.pdf.
+
+\endpostamble
+\generate{
+  \file{\jobname.sty}{\from{\jobname.dtx}{package}}
+}
+%</install> 
+%<install> \endbatchfile
+%<*internal> 
+\generate{
+  \file{\jobname.ins}{\from{\jobname.dtx}{install}}
+}
+\nopreamble\nopostamble
+\generate{
+  \file{README.md}{\from{\jobname.dtx}{readme}}
+}
+\ifx\fmtname\nameofplainTeX
+\expandafter\endbatchfile
+\else
+\expandafter\endgroup
+\fi
+%</internal> 
+%<package> \NeedsTeXFormat{LaTeX2e}[2020/02/02]
+%<package> \RequirePackage{etoolbox}[2019/09/21]
+%<package> \RequirePackage{l3keys2e}[2020/03/06]
+%<package> \RequirePackage{xparse}[2020/03/06]
+%<package> \ProvidesExplPackage
+%<package> {syshex}                                                                                 % Package name
+%<package> {2020/04/22}                                                                             % Release date
+%<package> {1.0}                                                                                    % Release version
+%<package> {syshex --- Numeric timestamp, unique filename generation. }                                        % Description
+% 
+%<*driver> 
+\documentclass[full]{l3doc}
+\listfiles
+\usepackage[english,french]{babel}
+\AtBeginDocument{\selectlanguage{english}}
+\usepackage{bookmark}
+\usepackage{syshex}
+\usepackage{fvextra}% csquotes should be loaded after fvextra
+\usepackage[T1]{fontenc}
+\usepackage{pdfpages}
+\usepackage{tabto}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, breakable}
+\makeatletter
+\newcommand*{\docsetnameref}{\def\@currentlabelname}%https://tex.stackexchange.com/questions/537751
+\makeatother
+\ExplSyntaxOn
+\tl_gset:Nn \partname {Part}
+\ExplSyntaxOff
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+% ^^A\AtEndDocument { \PrintChanges \PrintIndex }
+\ExplSyntaxOn
+\providecommand\docarg[1]{\texttt{#1}} % fun[param] (macro) vs fun[arg] (eval)
+\providecommand\docargnoval{\c_novalue_tl}
+\providecommand\docassign[2]{#1~$\leftarrow$~#2}
+\providecommand\docccept[1]{\textit{#1}}
+\providecommand\doccceptargspec{arg~spec}
+\providecommand\doccceptbool{boolean}
+\providecommand\doccceptcode{code}
+\providecommand\doccceptempty{empty}
+\providecommand\doccceptint{integer}
+\providecommand\doccceptgroup{local~group}
+\providecommand\doccceptkvl{keyval~list}
+\providecommand\doccceptopt{option}
+\providecommand\doccceptpath{path}
+\providecommand\doccceptpre{preamble}
+\providecommand\docccepttok{token}
+\providecommand\docconv[1]{convention~\autoref{conv:#1}}
+\providecommand\docenvdoc{\env{document}}
+\providecommand\docdefaultfor{default~for~}
+\providecommand\doceval[1]{\texttt{\char`\{}#1\texttt{\char`\}}}
+\providecommand\docfillblank{\begin{minipage}[t]{\linewidth}\end{minipage}}
+\providecommand\docissuedo{Do: }
+\providecommand\docissuedont{Don't: }
+\providecommand\docissuesymp{Symptom: }
+\providecommand\doclist[1]{Listing~\ref{listing:#1}}
+\providecommand\docopto[1]{\texttt{[}#1\texttt{]}}
+\providecommand\docopte[2]{\texttt{#1}\doceval{#2}}
+\providecommand\docoptd[1]{\texttt{\textless}#1\texttt{\textgreater}}
+\providecommand\docpipe{\textbar}
+\cs_new:Nn \__syshex_docu:n{\MakeUppercase #1}
+\providecommand\docstep[1]{step~\ref{step:#1}}
+\providecommand\docsee{See:~}
+\providecommand\docccepttl{token~list}
+\providecommand\doctip{\noindent\textbf{Tip}:~}
+\providecommand\docU[1]{\exp_args:Nx \__syshex_docu:n{#1}}
+\providecommand\docvers[2]{v#1.#2}
+\providecommand\docwarn{\noindent\textbf{Warning}:~}
+\newenvironment{docabstract}[1]%https://latex.org/forum/viewtopic.php?t=12156
+{\renewcommand{\abstractname}{#1}\begin{abstract}}
+  {\end{abstract}} 
+\ExplSyntaxOff
+\begin{document}
+\DocInput{\jobname.dtx}
+\end{document}
+%</driver> 
+% \fi
+% 
+% \GetFileInfo{\jobname.sty}
+% \begin{documentation}
+%   \title{The \pkg{syshex} package \thanks{^^A
+%   This file describes version \fileversion, last revised \filedate.^^A
+% }^^A
+% }
+%   \author{Erwann Rogard\thanks{firstname dot lastname AusTria gmail dot com}}
+%   
+%   \date{Released \filedate}
+%   
+%   \maketitle
+% \begingroup
+%   \selectlanguage{english}
+%   \begin{docabstract}{Abstract}
+%    Lightweight, \LaTeX~package, that makes available
+%     commands to make a (hexa-)decimal timestamp, which can be useful to create unique filenames.
+%   \end{docabstract}
+% \endgroup
+%   
+% \begingroup
+%   \selectlanguage{french}
+%   \begin{docabstract}{Résumé}
+%     Extension \LaTeX~offrant un horodateur (hexa-)decimal, qui peut trouver son utilité pour produire des noms de fichiers uniques.
+%   \end{docabstract}
+% \endgroup
+%^^A   \selectlanguage{english}
+%   
+%   \tableofcontents 
+%   
+%   \part{Usage}\label{part:usage}
+%   ^^A   \VerbatimFootnotes
+%
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{Loading the package}
+%   \label{usage:load} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}Loading the package}   
+%   \begin{function}{\usepackage}
+%     \begin{syntax}
+%       \cs{usepackage}\doceval{\pkg{syshex}}
+%     \end{syntax}
+%     \begin{description}
+%     \item[Requirement]\docfillblank
+%       \begin{enumerate}
+%       \item \file{syshex.sty} is in the path of the \LaTeX~engine. See \autoref{part:other}, \autoref{other:support}.
+%       \item Declare it in the~\docccept{\doccceptpre}
+%       \end{enumerate}
+%     \end{description}  
+%   \end{function}
+%   
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{SyshexDate}}
+%   \label{usage:date} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexDate}}   
+%   \begin{function}{SyshexDate}
+%     \begin{syntax}
+%       \cs{SyshexDate}
+%     \end{syntax}
+%     \begin{description}
+%       \item[Semantics] Numeric date
+%     \end{description}
+%   \end{function}
+%
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{SyshexDateHex}}
+%   \label{usage:date:hex} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexDateHex}}   
+%   \begin{function}{SyshexDateHex}
+%     \begin{syntax}
+%       \cs{SyshexDateHex}
+%     \end{syntax}
+%     \begin{description}
+%       \item[Semantics] Numeric date (hex)
+%     \end{description}
+%   \end{function}
+%
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{SyshexFilename}}
+%   \label{usage:filename} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexFilename}}   
+%   \begin{function}{SyshexFilename}
+%     \begin{syntax}
+%       \cs{SyshexFilename}
+%     \end{syntax}
+%     \begin{description}
+%       \item[Semantics] \cs{c_sys_jobname_str}|--|\cs{SyshexDateHex}|--|\cs{SyshexTimeHex}\cite{interface3}
+%     \end{description}
+%   \end{function}
+%
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{SyshexTime}}
+%   \label{usage:date:hex} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexTime}}   
+%   \begin{function}{SyshexTime}
+%     \begin{syntax}
+%       \cs{SyshexTime}
+%     \end{syntax}
+%     \begin{description}
+%       \item[Semantics] Numeric time
+%     \end{description}
+%   \end{function}
+%
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{SyshexTimeHex}}
+%   \label{usage:date:hex} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexTimeHex}}   
+%   \begin{function}{SyshexTimeHex}
+%     \begin{syntax}
+%       \cs{SyshexTimeHex}
+%     \end{syntax}
+%     \begin{description}
+%       \item[Semantics] Numeric time (hex)
+%     \end{description}
+%   \end{function}
+%
+%   \clearpage
+%   \part{Listing}\label{part:listing}
+%   
+%   \newtcblisting[auto counter]
+%   {listing}[2][]{
+%   noparskip,
+%   breakable,
+%   colback=white,
+%   colframe=black,
+%   opacitybacktitle=.8,%
+%   fonttitle=\bfseries,
+%   title={Listing~\thetcbcounter. #1},
+%   arc=0pt,
+%   outer arc=0pt,
+%   boxrule=1pt,
+%   listing and text,
+%   #2}
+%   
+%   \phantomsection\addcontentsline{toc}{section}
+%   {\ref{listing:all}. All at once}
+%   \iffalse
+%<*guardlisting>   
+%   \fi
+\begin{listing}[All at once]
+  {label=listing:all, listing and text}
+  \noindent\SyshexDate\\
+  \SyshexDateHex\\
+  \SyshexTime\\
+  \SyshexTimeHex\\
+  \SyshexFilename
+\end{listing}
+% \iffalse
+%</guardlisting> 
+% \fi
+% 
+% \clearpage
+% \part{Other}\label{part:other}
+% 
+% \section{Acknowledgment}\label{other:acknowl} 
+% 
+% This work has benefited from Q\&A's from the \LaTeX community\cite{user-erw}
+%
+% \section{Install}\label{other:install}
+% \begin{enumerate}[label=\emph{\arabic*)}]
+% \item Compile \file{syshex.dtx} (under Unix, \texttt{\$tex syshex.dtx})
+% \item Put the generated \file{syshex.sty} in the search path of the \LaTeX engine
+% \end{enumerate}
+% 
+% \section{Support}\label{other:support}
+% 
+% This package is available from \url{https://www.ctan.org/pkg/syshex} and \url{https://github.com/rogard/syshex}.
+% 
+% \subsection{Platform}
+% \begin{enumerate}[label=\emph{\roman*)}]
+% \item 
+%   ^^A uname -a
+%   \begin{Verbatim}[breaklines=true]
+%     Linux laptop 4.15.0-20-generic #21-Ubuntu SMP Tue Apr 24 06:16:15 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+%   \end{Verbatim}
+%   \label{plat:lin}
+% \end{enumerate}
+% 
+% \subsection{Engine}
+% \begin{enumerate}[label=\emph{\alph*)}]
+% \item 
+%   \begin{Verbatim}[breaklines=true]
+%     pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019)
+%   \end{Verbatim}
+%   \label{eng:tlxviiii:pdf}
+% \item 
+%   \begin{Verbatim}[breaklines=true]
+%     pdfTeX 3.14159265-2.6-1.40.21 (TeX Live 2020)
+%   \end{Verbatim}
+%   \label{eng:tlxx:pdf}
+% \item
+%   \begin{Verbatim}[breaklines=true]
+%     LuaHBTeX, Version 1.12.0 (TeX Live 2020)
+%   \end{Verbatim}
+%   \label{eng:tlxx:lua}
+% \item
+%   \begin{Verbatim}[breaklines=true]
+%     XeTeX 3.14159265-2.6-0.999992 (TeX Live 2020)
+%   \end{Verbatim}
+%   \label{eng:tlxx:xe}
+% \end{enumerate}
+% 
+% \subsection{Results}
+% 
+% \begin{enumerate}[label=\emph{\arabic*)}]
+% \item \pkg{syshex} \docvers{1}{0} satisfactory on platform \ref{plat:lin} and engines \ref{eng:tlxx:pdf},  \ref{eng:tlxx:lua}, and \ref{eng:tlxx:xe}
+% \end{enumerate}
+% 
+% \leavevmode
+% \refstepcounter{section}
+% \docsetnameref{References}
+% \label{other:bib}
+% \phantomsection\addcontentsline{toc}{section}{References}
+% \begin{thebibliography}{1}
+% \bibitem{interface3} The \LaTeX3 Project Team {\em The \LaTeX3 interfaces}, 2019,
+%   \url{http://ftp.math.purdue.edu/mirrors/ctan.org/macros/latex/contrib/l3kernel/interface3.pdf}
+% \bibitem{user-erw} \url{https://tex.stackexchange.com/users/112708/erwann?tab=questions}
+% \end{thebibliography}
+% 
+% \changes{\docvers{1}{0}}{2020/04/22}{Initial version}
+%
+%   \PrintChanges
+%   \PrintIndex
+%   \clearpage
+%   \StopEventually{
+%   ^^A   \PrintChanges
+%   ^^A   \PrintIndex
+% }
+% \end{documentation}
+% \begin{implementation}
+%   \part{Implementation}\label{part:impl}
+%   
+%   \iffalse
+%<*package>   
+%   \fi
+%   \section{Opening}
+%    \begin{macrocode}
+%<@@=syshex>      
+\ExplSyntaxOn
+%    \end{macrocode}
+%\section{date}\label{impl:ate}
+% \begin{macro}{\@@_date:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_date:
+{
+  \int_eval:n
+  {
+    \c_sys_year_int * 10000
+    +\c_sys_month_int * 100
+    +\c_sys_day_int *  1
+  }
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexDate{}{\@@_date:}
+%    \end{macrocode}
+% \begin{macro}{\@@_date_hex:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_date_hex:
+{\int_to_hex:n{\@@_date:}}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexDateHex{}{\@@_date_hex:}
+%    \end{macrocode}
+%\section{time}\label{impl:time}
+% \begin{macro}{\@@_time:}
+%    \begin{macrocode}
+\cs_new:Nn \@@_time:
+{
+  \int_eval:n
+  {
+    \c_sys_hour_int * 100 
+    +\c_sys_minute_int * 1 
+  }
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexTime{}{\@@_time:}
+%    \end{macrocode}
+% \begin{macro}{\@@_time_hex:}
+%    \begin{macrocode}
+\cs_new:Nn\@@_time_hex:
+{\int_to_hex:n{\@@_time:}}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexTimeHex{}{\@@_time_hex:}
+%    \end{macrocode}
+%\section{file}\label{impl:file}
+% \begin{macro}{\@@_filename:}
+%    \begin{macrocode}
+\cs_new:Nn\@@_filename:
+{
+  \c_sys_jobname_str--
+  \@@_date_hex:--
+  \@@_time_hex:
+}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexFilename{}{\@@_filename:}
+%    \end{macrocode}
+% \section{Closing}
+%    \begin{macrocode}
+\ExplSyntaxOff
+%    \end{macrocode}
+% \end{implementation}
+% 
+% \iffalse
+%</package> 
+% \fi
+% \Finale
+\endinput
