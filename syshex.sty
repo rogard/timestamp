@@ -12,47 +12,21 @@
 %% ----------------------------------------------------------------------------
 %% 
  \NeedsTeXFormat{LaTeX2e}[2020/02/02]
+ \RequirePackage{erw-l3}[2020/04/27]
  \RequirePackage{etoolbox}[2019/09/21]
  \RequirePackage{l3keys2e}[2020/03/06]
  \RequirePackage{xparse}[2020/03/06]
  \ProvidesExplPackage
  {syshex}                                                                                 % Package name
- {2020/04/22}                                                                             % Release date
- {1.0}                                                                                    % Release version
+ {2020/04/27}                                                                             % Release date
+ {1.1}                                                                                    % Release version
  {syshex --- Numeric timestamp, unique filename generation. }                                        % Description
 \ExplSyntaxOn
-\cs_new:Nn \@@_date:
-{
-  \int_eval:n
-  {
-    \c_sys_year_int * 10000
-    +\c_sys_month_int * 100
-    +\c_sys_day_int *  1
-  }
-}
-\NewDocumentCommand\SyshexDate{}{\@@_date:}
-\cs_new:Nn \@@_date_hex:
-{\int_to_hex:n{\@@_date:}}
-\NewDocumentCommand\SyshexDateHex{}{\@@_date_hex:}
-\cs_new:Nn \@@_time:
-{
-  \int_eval:n
-  {
-    \c_sys_hour_int * 100
-    +\c_sys_minute_int * 1
-  }
-}
-\NewDocumentCommand\SyshexTime{}{\@@_time:}
-\cs_new:Nn\@@_time_hex:
-{\int_to_hex:n{\@@_time:}}
-\NewDocumentCommand\SyshexTimeHex{}{\@@_time_hex:}
-\cs_new:Nn\@@_filename:
-{
-  \c_sys_jobname_str--
-  \@@_date_hex:--
-  \@@_time_hex:
-}
-\NewDocumentCommand\SyshexFilename{}{\@@_filename:}
+\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
+\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
+\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
+\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
+\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
 \ExplSyntaxOff
 %% 
 %% Copyright (C) 2020 by Erwann Rogard

@@ -69,13 +69,14 @@ syshex.sty, and syshex.pdf.
 \fi
 %</internal> 
 %<package> \NeedsTeXFormat{LaTeX2e}[2020/02/02]
+%<package> \RequirePackage{erw-l3}[2020/04/27]
 %<package> \RequirePackage{etoolbox}[2019/09/21]
 %<package> \RequirePackage{l3keys2e}[2020/03/06]
 %<package> \RequirePackage{xparse}[2020/03/06]
 %<package> \ProvidesExplPackage
 %<package> {syshex}                                                                                 % Package name
-%<package> {2020/04/22}                                                                             % Release date
-%<package> {1.0}                                                                                    % Release version
+%<package> {2020/04/27}                                                                             % Release date
+%<package> {1.1}                                                                                    % Release version
 %<package> {syshex --- Numeric timestamp, unique filename generation. }                                        % Description
 % 
 %<*driver> 
@@ -84,10 +85,10 @@ syshex.sty, and syshex.pdf.
 \usepackage[english,french]{babel}
 \AtBeginDocument{\selectlanguage{english}}
 \usepackage{bookmark}
-\usepackage{syshex}
+\usepackage{nolbreaks}
 \usepackage{fvextra}% csquotes should be loaded after fvextra
 \usepackage[T1]{fontenc}
-\usepackage{pdfpages}
+\usepackage{syshex}
 \usepackage{tabto}
 \usepackage{tcolorbox}
 \tcbuselibrary{listings, breakable}
@@ -162,8 +163,8 @@ syshex.sty, and syshex.pdf.
 % \begingroup
 %   \selectlanguage{english}
 %   \begin{docabstract}{Abstract}
-%    Lightweight, \LaTeX~package, that makes available
-%     commands to make a (hexa-)decimal timestamp, which can be useful to create unique filenames.
+%    Lightweight \LaTeX~package, that makes available
+%     commands to make \nolbreaks{(hexa-)decimal} timestamp, which can be useful to create unique filenames.
 %   \end{docabstract}
 % \endgroup
 %   
@@ -192,7 +193,7 @@ syshex.sty, and syshex.pdf.
 %     \begin{description}
 %     \item[Requirement]\docfillblank
 %       \begin{enumerate}
-%       \item \file{syshex.sty} is in the path of the \LaTeX~engine. See \autoref{part:other}, \autoref{other:support}.
+%       \item \file{syshex.sty} and its dependencies are in the path of the \LaTeX~engine. See \autoref{part:other}, \autoref{other:support}.
 %       \item Declare it in the~\docccept{\doccceptpre}
 %       \end{enumerate}
 %     \end{description}  
@@ -372,6 +373,8 @@ syshex.sty, and syshex.pdf.
 % \end{thebibliography}
 % 
 % \changes{\docvers{1}{0}}{2020/04/22}{Initial version}
+% \changes{\docvers{1}{1}}{2020/04/27}{Removed: internals}
+% \changes{\docvers{1}{1}}{2020/04/27}{Added: dependency to \pkg{erw-l3}}
 %
 %   \PrintChanges
 %   \PrintIndex
@@ -393,69 +396,22 @@ syshex.sty, and syshex.pdf.
 \ExplSyntaxOn
 %    \end{macrocode}
 %\section{date}\label{impl:ate}
-% \begin{macro}{\@@_date:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_date:
-{
-  \int_eval:n
-  {
-    \c_sys_year_int * 10000
-    +\c_sys_month_int * 100
-    +\c_sys_day_int *  1
-  }
-}
+\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
 %    \end{macrocode}
-% \end{macro}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexDate{}{\@@_date:}
-%    \end{macrocode}
-% \begin{macro}{\@@_date_hex:}
-%    \begin{macrocode}
-\cs_new:Nn \@@_date_hex:
-{\int_to_hex:n{\@@_date:}}
-%    \end{macrocode}
-% \end{macro}
-%    \begin{macrocode}
-\NewDocumentCommand\SyshexDateHex{}{\@@_date_hex:}
-%    \end{macrocode}
-%\section{time}\label{impl:time}
-% \begin{macro}{\@@_time:}
-%    \begin{macrocode}
-\cs_new:Nn \@@_time:
-{
-  \int_eval:n
-  {
-    \c_sys_hour_int * 100 
-    +\c_sys_minute_int * 1 
-  }
-}
-%    \end{macrocode}
-% \end{macro}
-%    \begin{macrocode}
-\NewDocumentCommand\SyshexTime{}{\@@_time:}
-%    \end{macrocode}
-% \begin{macro}{\@@_time_hex:}
-%    \begin{macrocode}
-\cs_new:Nn\@@_time_hex:
-{\int_to_hex:n{\@@_time:}}
-%    \end{macrocode}
-% \end{macro}
-%    \begin{macrocode}
-\NewDocumentCommand\SyshexTimeHex{}{\@@_time_hex:}
+\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
 %    \end{macrocode}
 %\section{file}\label{impl:file}
-% \begin{macro}{\@@_filename:}
 %    \begin{macrocode}
-\cs_new:Nn\@@_filename:
-{
-  \c_sys_jobname_str--
-  \@@_date_hex:--
-  \@@_time_hex:
-}
+\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
 %    \end{macrocode}
-% \end{macro}
+%\section{time}\label{impl:time}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexFilename{}{\@@_filename:}
+\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
+%    \end{macrocode}
+%    \begin{macrocode}
+\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
 %    \end{macrocode}
 % \section{Closing}
 %    \begin{macrocode}
