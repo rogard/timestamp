@@ -4,12 +4,12 @@
 \iffalse
 %</internal> 
 %<*readme> 
-----------------------------------------------------------------
-##### syshex --- Numeric timestamp, unique filename generation.
+-----------------------------------------------------------------
+##### syshex --- Hexadecimal-timestamp
 - Source repository: https://github.com/rogard/syshex
 - Released under the LaTeX Project Public License v1.3c or later
 - See http://www.latex-project.org/lppl.txt
-----------------------------------------------------------------
+-----------------------------------------------------------------
 
 %</readme> 
 %<*internal> 
@@ -25,7 +25,7 @@
 \askforoverwritefalse
 \preamble
 ----------------------------------------------------------------------------
-syshex --- Numeric timestamp, unique filename generation. 
+syshex --- Hexadecimal-timestamp
 Released under the LaTeX Project Public License v1.3c or later
 See http://www.latex-project.org/lppl.txt
 ----------------------------------------------------------------------------
@@ -69,15 +69,14 @@ syshex.sty, and syshex.pdf.
 \fi
 %</internal> 
 %<package> \NeedsTeXFormat{LaTeX2e}[2020/02/02]
-%<package> \RequirePackage{erw-l3}[2020/04/27]
 %<package> \RequirePackage{etoolbox}[2019/09/21]
 %<package> \RequirePackage{l3keys2e}[2020/03/06]
 %<package> \RequirePackage{xparse}[2020/03/06]
 %<package> \ProvidesExplPackage
 %<package> {syshex}                                                                                 % Package name
 %<package> {2020/04/27}                                                                             % Release date
-%<package> {1.1}                                                                                    % Release version
-%<package> {syshex --- Numeric timestamp, unique filename generation. }                                        % Description
+%<package> {1.3}                                                                                    % Release version
+%<package> {syshex --- Hexadecimal-timestamp }                                                      % Description
 % 
 %<*driver> 
 \documentclass[full]{l3doc}
@@ -164,14 +163,14 @@ syshex.sty, and syshex.pdf.
 %   \selectlanguage{english}
 %   \begin{docabstract}{Abstract}
 %    Lightweight \LaTeX~package that makes available \nolbreaks{package-level}\cite{interface3}
-%     commands to make \nolbreaks{(hexa-)decimal} timestamp, which can be useful to create unique filenames.
+%     commands to make a \nolbreaks{(hexa-)decimal} timestamp, which can be useful to create unique filenames.
 %   \end{docabstract}
 % \endgroup
 %   
 % \begingroup
 %   \selectlanguage{french}
 %   \begin{docabstract}{Résumé}
-%     Extension \LaTeX~offrant un horodateur (hexa-)decimal, qui peut trouver son utilité pour produire des noms de fichiers uniques.
+%     Extension \LaTeX~offrant un horodateur (hexa-)decimal, qui peut trouver son usage dans des noms de fichiers uniques.
 %    Les commandes afférentes sont de type `implementation'\cite{interface3}.
 %   \end{docabstract}
 % \endgroup
@@ -231,7 +230,7 @@ syshex.sty, and syshex.pdf.
 %   \leavevmode
 %   \refstepcounter{section}
 %   \docsetnameref{\cs{syshex_jobname:}}
-%   \label{usage:filename} 
+%   \label{usage:jobname} 
 %   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_jobname:}}   
 %   \begin{function}{syshex_jobname:}
 %     \begin{syntax}
@@ -245,7 +244,7 @@ syshex.sty, and syshex.pdf.
 %   \leavevmode
 %   \refstepcounter{section}
 %   \docsetnameref{\cs{syshex_time:}}
-%   \label{usage:date:hex} 
+%   \label{usage:time} 
 %   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_time:}}   
 %   \begin{function}{syshex_time:}
 %     \begin{syntax}
@@ -259,7 +258,7 @@ syshex.sty, and syshex.pdf.
 %   \leavevmode
 %   \refstepcounter{section}
 %   \docsetnameref{\cs{syshex_time_hex:}}
-%   \label{usage:date:hex} 
+%   \label{usage:time:hex} 
 %   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_time_hex:}}   
 %   \begin{function}{syshex_time_hex:}
 %     \begin{syntax}
@@ -370,8 +369,8 @@ syshex.sty, and syshex.pdf.
 % \label{other:bib}
 % \phantomsection\addcontentsline{toc}{section}{References}
 % \begin{thebibliography}{1}
-%^^A \bibitem{interface3} The \LaTeX3 Project Team {\em The \LaTeX3 interfaces}, 2019,
-%^^A   \url{http://ftp.math.purdue.edu/mirrors/ctan.org/macros/latex/contrib/l3kernel/interface3.pdf}
+% \bibitem{interface3} The \LaTeX3 Project Team {\em The \LaTeX3 interfaces}, 2019,
+%   \url{http://ftp.math.purdue.edu/mirrors/ctan.org/macros/latex/contrib/l3kernel/interface3.pdf}
 % \bibitem{user-erw} \url{https://tex.stackexchange.com/users/112708/erwann?tab=questions}
 % \end{thebibliography}
 % 
@@ -389,6 +388,8 @@ syshex.sty, and syshex.pdf.
 % \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_time:}}
 % \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_time_hex:}}
 % \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_jobname:}}
+% \changes{\docvers{1}{3}}{2020/04/27}{Remove: prefix |sys| in internals}
+% \changes{\docvers{1}{3}}{2020/04/27}{Misc: cleanup}
 %
 %   \PrintChanges
 %   \PrintIndex
@@ -410,9 +411,9 @@ syshex.sty, and syshex.pdf.
 \ExplSyntaxOn
 %    \end{macrocode}
 % \section{Backend}
-% \begin{macro}{\@@_sys_date:}
+% \begin{macro}{\@@_date:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_sys_date:
+\cs_new:Nn \@@_date:
 {
   \int_eval:n
   {
@@ -423,25 +424,25 @@ syshex.sty, and syshex.pdf.
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_sys_date_hex:}
+% \begin{macro}{\@@_date_hex:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_sys_date_hex:
-{\int_to_hex:n{\@@_sys_date:}}
+\cs_new:Nn \@@_date_hex:
+{\int_to_hex:n{\@@_date:}}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_sys_jobname:}
+% \begin{macro}{\@@_jobname:}
 %    \begin{macrocode}
-\cs_new:Nn\@@_sys_jobname:
+\cs_new:Nn\@@_jobname:
 {
   \c_sys_jobname_str--
-  \@@_sys_date_hex:--
-  \@@_sys_time_hex:
+  \@@_date_hex:--
+  \@@_time_hex:
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_sys_time:}
+% \begin{macro}{\@@_time:}
 %    \begin{macrocode}
-\cs_new:Nn \@@_sys_time:
+\cs_new:Nn \@@_time:
 {
   \int_eval:n
   {
@@ -451,38 +452,20 @@ syshex.sty, and syshex.pdf.
 }
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\@@_sys_time_hex:}
+% \begin{macro}{\@@_time_hex:}
 %    \begin{macrocode}
-\cs_new:Nn\@@_sys_time_hex:
-{\int_to_hex:n{\@@_sys_time:}}
+\cs_new:Nn\@@_time_hex:
+{\int_to_hex:n{\@@_time:}}
 %    \end{macrocode}
 % \end{macro}
 % \section{Frontend}
 %    \begin{macrocode}
-\cs_new:Nn\syshex_date:{\@@_sys_date:}
-\cs_new:Nn\syshex_date_hex:{\@@_sys_date_hex:}
-\cs_new:Nn\syshex_jobname:{\@@_sys_jobname:}
-\cs_new:Nn\syshex_time:{\@@_sys_time:}
-\cs_new:Nn\syshex_time_hex:{\@@_sys_time_hex:}
+\cs_new:Nn\syshex_date:{\@@_date:}
+\cs_new:Nn\syshex_date_hex:{\@@_date_hex:}
+\cs_new:Nn\syshex_jobname:{\@@_jobname:}
+\cs_new:Nn\syshex_time:{\@@_time:}
+\cs_new:Nn\syshex_time_hex:{\@@_time_hex:}
 %    \end{macrocode}
-%^^A%\section{date}\label{impl:ate}
-%^^A%    \begin{macrocode}
-%^^A\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
-%^^A%    \end{macrocode}
-%^^A%    \begin{macrocode}
-%^^A\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
-%^^A%    \end{macrocode}
-%^^A%\section{file}\label{impl:file}
-%^^A%    \begin{macrocode}
-%^^A\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
-%^^A%    \end{macrocode}
-%^^A%\section{time}\label{impl:time}
-%^^A%    \begin{macrocode}
-%^^A\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
-%^^A%    \end{macrocode}
-%^^A%    \begin{macrocode}
-%^^A\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
-%^^A%    \end{macrocode}
 % \section{Closing}
 %    \begin{macrocode}
 \ExplSyntaxOff
