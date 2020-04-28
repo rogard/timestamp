@@ -1,0 +1,126 @@
+%%
+%% This is file `timestamp.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% timestamp.dtx  (with options: `package')
+%% ----------------------------------------------------------------------------
+%% timestamp --- (Hexa-) decimal timestamp
+%% Released under the LaTeX Project Public License v1.3c or later
+%% See http://www.latex-project.org/lppl.txt
+%% ----------------------------------------------------------------------------
+%% 
+ \NeedsTeXFormat{LaTeX2e}[2020/02/02]
+ \RequirePackage{etoolbox}[2019/09/21]
+ \RequirePackage{l3keys2e}[2020/03/06]
+ \RequirePackage{xparse}[2020/03/06]
+ \ProvidesExplPackage
+ {timestamp}                                                                              % Package name
+ {2020/04/28}                                                                             % Release date
+ {1.5}                                                                                    % Release version
+ {timestamp --- (Hexa-)decimal-timestamp }                                                % Description
+\ExplSyntaxOn
+\msg_new:nnn{@@}{datetime / base}{Calling~#1,~arg~must~be~'dec|hex'}
+\msg_new:nnn{@@}{datetime / period}{Calling~#1,~arg~must~be~'date|time|datetime'}
+\cs_new:Nn \@@_date_dec:
+{
+  \int_eval:n
+  {
+    \c_sys_year_int * 10000
+    +\c_sys_month_int * 100
+    +\c_sys_day_int *  1
+  }
+}
+\cs_new:Nn \@@_date:N{\int_to_hex:n{\@@_date_dec:}}
+\cs_new:Nn \@@_date_hex:{\int_to_hex:n{\@@_date_dec:}}
+\cs_new:Nn \@@_time_dec:
+{
+  \int_eval:n
+  {
+    \c_sys_hour_int * 100
+    +\c_sys_minute_int * 1
+  }
+}
+\cs_new:Nn\@@_time_hex:{\int_to_hex:n{\@@_time_dec:}}
+\cs_new:Nn\@@_datetime_base:n
+{
+  \int_case:nnTF{#1}
+  {
+    {10}{dec}
+    {16}{hex}
+  }
+  {\c_empty_tl}
+  {\msg_error:nnn{@@}{datetime / base}{\@@_datetime_base:n{#1}}}
+}
+\cs_new:Nn\@@_datetime_join:nnn{#1#2#3}
+\cs_new:Nn\@@_datetime_join:nn{\@@_datetime_join:nnn{#1}{\g@@_delim_str}{#2}}
+\cs_new:Nn\@@_datetime_period:n
+{
+  \str_case:nnTF{#1}
+  {
+    {date}{date}
+    {time}{time}
+    {datetime}{datetime}
+  }
+  {\c_empty_tl}
+  {\msg_error:nnn{@@}{ datetime / period }{\@@_datetime_period:n{#1}}}
+}
+\cs_new:Nn\@@_datetime_dec: {\@@_datetime_join:nn{\@@_date_dec:}{\@@_time_dec:}}
+\cs_new:Nn\@@_datetime_hex: {\@@_datetime_join:nn{\@@_date_hex:}{\@@_time_hex:}}
+\cs_new:Nn\@@_timestamp:nn
+{
+  \exp_args:No
+  \use:c{@@_\@@_datetime_period:n{#1}_\@@_datetime_base:n{#2}:}
+}
+\cs_new_protected:Nn \syshex_set_delim:nn
+{
+  \use:c{tl_gset:N#1}
+  \g@@_delim_str{#2}
+}
+\keys_define:nn{@@}
+{
+  timestamp / delim .code:n =
+  {
+    \exp_last_unbraced:No
+    \syshex_set_delim:nn{n}{#1}
+  },
+  timestamp / delim  .value_required:n = true,
+  timestamp / delim  .default:n = {-},
+  timestamp / delim  .initial:n = {-},
+}
+\cs_new:Nn\syshex_option:n
+{
+  \keys_set:nn{@@}{#1}
+}
+\cs_new:Nn\erw_timestamp:nn
+{
+  \@@_timestamp:nn{#1}{#2}
+}
+\cs_new:Nn\erw_timestamp:
+{
+  \@@_timestamp:nn{datetime}{16}
+}
+\NewDocumentCommand\Timestamp{O{datetime}E{^}{{16}}}
+{
+  \erw_timestamp:nn{#1}{#2}
+}
+\ExplSyntaxOff
+%% 
+%% Copyright (C) 2020 by Erwann Rogard
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License (LPPL), either
+%% version 1.3c of this license or (at your option) any later
+%% version.  The latest version of this license is in the file:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% This work is "maintained" (as per LPPL maintenance status) by
+%% Erwann Rogard.
+%% 
+%% This work consists of the file timestamp.dtx and the derived files:
+%% timestamp.sty, and timestamp.pdf.
+%% 
+%%
+%% End of file `timestamp.sty'.
