@@ -22,11 +22,38 @@
  {1.1}                                                                                    % Release version
  {syshex --- Numeric timestamp, unique filename generation. }                                        % Description
 \ExplSyntaxOn
-\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
-\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
-\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
-\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
-\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
+\cs_new:Nn \@@_sys_date:
+{
+  \int_eval:n
+  {
+    \c_sys_year_int * 10000
+    +\c_sys_month_int * 100
+    +\c_sys_day_int *  1
+  }
+}
+\cs_new:Nn \@@_sys_date_hex:
+{\int_to_hex:n{\@@_sys_date:}}
+\cs_new:Nn\@@_sys_jobname:
+{
+  \c_sys_jobname_str--
+  \@@_sys_date_hex:--
+  \@@_sys_time_hex:
+}
+\cs_new:Nn \@@_sys_time:
+{
+  \int_eval:n
+  {
+    \c_sys_hour_int * 100
+    +\c_sys_minute_int * 1
+  }
+}
+\cs_new:Nn\@@_sys_time_hex:
+{\int_to_hex:n{\@@_sys_time:}}
+\cs_new:Nn\syshex_date:{\@@_sys_date:}
+\cs_new:Nn\syshex_date_hex:{\@@_sys_date_hex:}
+\cs_new:Nn\syshex_jobname:{\@@_sys_jobname:}
+\cs_new:Nn\syshex_time:{\@@_sys_time:}
+\cs_new:Nn\syshex_time_hex:{\@@_sys_time_hex:}
 \ExplSyntaxOff
 %% 
 %% Copyright (C) 2020 by Erwann Rogard

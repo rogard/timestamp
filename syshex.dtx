@@ -163,7 +163,7 @@ syshex.sty, and syshex.pdf.
 % \begingroup
 %   \selectlanguage{english}
 %   \begin{docabstract}{Abstract}
-%    Lightweight \LaTeX~package, that makes available
+%    Lightweight \LaTeX~package that makes available \nolbreaks{package-level}\cite{interface3}
 %     commands to make \nolbreaks{(hexa-)decimal} timestamp, which can be useful to create unique filenames.
 %   \end{docabstract}
 % \endgroup
@@ -172,6 +172,7 @@ syshex.sty, and syshex.pdf.
 %   \selectlanguage{french}
 %   \begin{docabstract}{Résumé}
 %     Extension \LaTeX~offrant un horodateur (hexa-)decimal, qui peut trouver son utilité pour produire des noms de fichiers uniques.
+%    Les commandes afférentes sont de type `implementation'\cite{interface3}.
 %   \end{docabstract}
 % \endgroup
 %^^A   \selectlanguage{english}
@@ -194,19 +195,19 @@ syshex.sty, and syshex.pdf.
 %     \item[Requirement]\docfillblank
 %       \begin{enumerate}
 %       \item \file{syshex.sty} and its dependencies are in the path of the \LaTeX~engine. See \autoref{part:other}, \autoref{other:support}.
-%       \item Declare it in the~\docccept{\doccceptpre}
+%       \item Goes in the~\docccept{\doccceptpre}
 %       \end{enumerate}
 %     \end{description}  
 %   \end{function}
 %   
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{SyshexDate}}
+%   \docsetnameref{\cs{syshex_date:}}
 %   \label{usage:date} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexDate}}   
-%   \begin{function}{SyshexDate}
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_date:}}   
+%   \begin{function}{syshex_date:}
 %     \begin{syntax}
-%       \cs{SyshexDate}
+%       \cs{syshex_date:}
 %     \end{syntax}
 %     \begin{description}
 %       \item[Semantics] Numeric date
@@ -215,12 +216,12 @@ syshex.sty, and syshex.pdf.
 %
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{SyshexDateHex}}
+%   \docsetnameref{\cs{syshex_date_hex:}}
 %   \label{usage:date:hex} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexDateHex}}   
-%   \begin{function}{SyshexDateHex}
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_date_hex:}}   
+%   \begin{function}{syshex_date_hex:}
 %     \begin{syntax}
-%       \cs{SyshexDateHex}
+%       \cs{syshex_date_hex:}
 %     \end{syntax}
 %     \begin{description}
 %       \item[Semantics] Numeric date (hex)
@@ -229,26 +230,26 @@ syshex.sty, and syshex.pdf.
 %
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{SyshexFilename}}
+%   \docsetnameref{\cs{syshex_jobname:}}
 %   \label{usage:filename} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexFilename}}   
-%   \begin{function}{SyshexFilename}
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_jobname:}}   
+%   \begin{function}{syshex_jobname:}
 %     \begin{syntax}
-%       \cs{SyshexFilename}
+%       \cs{syshex_jobname:}
 %     \end{syntax}
 %     \begin{description}
-%       \item[Semantics] \cs{c_sys_jobname_str}|--|\cs{SyshexDateHex}|--|\cs{SyshexTimeHex}\cite{interface3}
+%       \item[Semantics] Combines the job's name and \nameref{usage:date:hex}
 %     \end{description}
 %   \end{function}
 %
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{SyshexTime}}
+%   \docsetnameref{\cs{syshex_time:}}
 %   \label{usage:date:hex} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexTime}}   
-%   \begin{function}{SyshexTime}
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_time:}}   
+%   \begin{function}{syshex_time:}
 %     \begin{syntax}
-%       \cs{SyshexTime}
+%       \cs{syshex_time:}
 %     \end{syntax}
 %     \begin{description}
 %       \item[Semantics] Numeric time
@@ -257,12 +258,12 @@ syshex.sty, and syshex.pdf.
 %
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{SyshexTimeHex}}
+%   \docsetnameref{\cs{syshex_time_hex:}}
 %   \label{usage:date:hex} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{SyshexTimeHex}}   
-%   \begin{function}{SyshexTimeHex}
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{syshex_time_hex:}}   
+%   \begin{function}{syshex_time_hex:}
 %     \begin{syntax}
-%       \cs{SyshexTimeHex}
+%       \cs{syshex_time_hex:}
 %     \end{syntax}
 %     \begin{description}
 %       \item[Semantics] Numeric time (hex)
@@ -294,11 +295,13 @@ syshex.sty, and syshex.pdf.
 %   \fi
 \begin{listing}[All at once]
   {label=listing:all, listing and text}
-  \noindent\SyshexDate\\
-  \SyshexDateHex\\
-  \SyshexTime\\
-  \SyshexTimeHex\\
-  \SyshexFilename
+  \ExplSyntaxOn
+  \noindent\syshex_date:\\
+  \syshex_date_hex:\\
+  \syshex_time:\\
+  \syshex_time_hex:\\
+  \syshex_jobname:
+  \ExplSyntaxOff
 \end{listing}
 % \iffalse
 %</guardlisting> 
@@ -358,7 +361,7 @@ syshex.sty, and syshex.pdf.
 % \subsection{Results}
 % 
 % \begin{enumerate}[label=\emph{\arabic*)}]
-% \item \pkg{syshex} \docvers{1}{0} satisfactory on platform \ref{plat:lin} and engines \ref{eng:tlxx:pdf},  \ref{eng:tlxx:lua}, and \ref{eng:tlxx:xe}
+% \item \pkg{syshex} \docvers{1}{2} compiles satisfactorily on platform \ref{plat:lin} and engines \ref{eng:tlxx:pdf},  \ref{eng:tlxx:lua}, and \ref{eng:tlxx:xe}
 % \end{enumerate}
 % 
 % \leavevmode
@@ -367,14 +370,25 @@ syshex.sty, and syshex.pdf.
 % \label{other:bib}
 % \phantomsection\addcontentsline{toc}{section}{References}
 % \begin{thebibliography}{1}
-% \bibitem{interface3} The \LaTeX3 Project Team {\em The \LaTeX3 interfaces}, 2019,
-%   \url{http://ftp.math.purdue.edu/mirrors/ctan.org/macros/latex/contrib/l3kernel/interface3.pdf}
+%^^A \bibitem{interface3} The \LaTeX3 Project Team {\em The \LaTeX3 interfaces}, 2019,
+%^^A   \url{http://ftp.math.purdue.edu/mirrors/ctan.org/macros/latex/contrib/l3kernel/interface3.pdf}
 % \bibitem{user-erw} \url{https://tex.stackexchange.com/users/112708/erwann?tab=questions}
 % \end{thebibliography}
 % 
 % \changes{\docvers{1}{0}}{2020/04/22}{Initial version}
-% \changes{\docvers{1}{1}}{2020/04/27}{Removed: internals}
-% \changes{\docvers{1}{1}}{2020/04/27}{Added: dependency to \pkg{erw-l3}}
+% \changes{\docvers{1}{1}}{2020/04/27}{Remove: internals}
+% \changes{\docvers{1}{1}}{2020/04/27}{Add: dependency to \pkg{erw-l3}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: dependency to \pkg{erw-l3}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: \cs{SyshexDate}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: \cs{SyshexDateHex}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: \cs{SyshexTime}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: \cs{SyshexTimeHex}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Remove: \cs{SyshexFilename}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_date:}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_date_hex:}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_time:}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_time_hex:}}
+% \changes{\docvers{1}{2}}{2020/04/27}{Add: \cs{syshex_jobname:}}
 %
 %   \PrintChanges
 %   \PrintIndex
@@ -395,24 +409,80 @@ syshex.sty, and syshex.pdf.
 %<@@=syshex>      
 \ExplSyntaxOn
 %    \end{macrocode}
-%\section{date}\label{impl:ate}
+% \section{Backend}
+% \begin{macro}{\@@_sys_date:}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
+\cs_new:Nn \@@_sys_date:
+{
+  \int_eval:n
+  {
+    \c_sys_year_int * 10000
+    +\c_sys_month_int * 100
+    +\c_sys_day_int *  1
+  }
+}
 %    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_sys_date_hex:}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
+\cs_new:Nn \@@_sys_date_hex:
+{\int_to_hex:n{\@@_sys_date:}}
 %    \end{macrocode}
-%\section{file}\label{impl:file}
+% \end{macro}
+% \begin{macro}{\@@_sys_jobname:}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
+\cs_new:Nn\@@_sys_jobname:
+{
+  \c_sys_jobname_str--
+  \@@_sys_date_hex:--
+  \@@_sys_time_hex:
+}
 %    \end{macrocode}
-%\section{time}\label{impl:time}
+% \end{macro}
+% \begin{macro}{\@@_sys_time:}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
+\cs_new:Nn \@@_sys_time:
+{
+  \int_eval:n
+  {
+    \c_sys_hour_int * 100 
+    +\c_sys_minute_int * 1 
+  }
+}
 %    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@@_sys_time_hex:}
 %    \begin{macrocode}
-\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
+\cs_new:Nn\@@_sys_time_hex:
+{\int_to_hex:n{\@@_sys_time:}}
 %    \end{macrocode}
+% \end{macro}
+% \section{Frontend}
+%    \begin{macrocode}
+\cs_new:Nn\syshex_date:{\@@_sys_date:}
+\cs_new:Nn\syshex_date_hex:{\@@_sys_date_hex:}
+\cs_new:Nn\syshex_jobname:{\@@_sys_jobname:}
+\cs_new:Nn\syshex_time:{\@@_sys_time:}
+\cs_new:Nn\syshex_time_hex:{\@@_sys_time_hex:}
+%    \end{macrocode}
+%^^A%\section{date}\label{impl:ate}
+%^^A%    \begin{macrocode}
+%^^A\NewDocumentCommand\SyshexDate{}{\erw_sys_date:}
+%^^A%    \end{macrocode}
+%^^A%    \begin{macrocode}
+%^^A\NewDocumentCommand\SyshexDateHex{}{\erw_sys_date_hex:}
+%^^A%    \end{macrocode}
+%^^A%\section{file}\label{impl:file}
+%^^A%    \begin{macrocode}
+%^^A\NewDocumentCommand\SyshexFilename{}{\erw_sys_filename:}
+%^^A%    \end{macrocode}
+%^^A%\section{time}\label{impl:time}
+%^^A%    \begin{macrocode}
+%^^A\NewDocumentCommand\SyshexTime{}{\erw_sys_time:}
+%^^A%    \end{macrocode}
+%^^A%    \begin{macrocode}
+%^^A\NewDocumentCommand\SyshexTimeHex{}{\erw_sys_time_hex:}
+%^^A%    \end{macrocode}
 % \section{Closing}
 %    \begin{macrocode}
 \ExplSyntaxOff
