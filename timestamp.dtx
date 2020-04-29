@@ -75,7 +75,7 @@ timestamp.sty, and timestamp.pdf.
 %<package> \ProvidesExplPackage
 %<package> {timestamp}                                                                              % Package name
 %<package> {2020/04/28}                                                                             % Release date
-%<package> {1.5}                                                                                    % Release version
+%<package> {1.6}                                                                                    % Release version
 %<package> {timestamp --- (Hexa-)decimal-timestamp }                                                % Description
 % 
 %<*driver> 
@@ -242,7 +242,7 @@ timestamp.sty, and timestamp.pdf.
   \noindent\erw_timestamp:nn{datetime}{10}\\
   \erw_timestamp:nn{date}{16}{\%}
   \erw_timestamp:nn{time}{16}\\
-  \syshex_option:n{ timestamp / delim = {\%} }
+  \erw_option:n{ timestamp / delim = {\%} }
   \erw_timestamp:nn{datetime}{16}\\
   \ExplSyntaxOff
 \end{listing}
@@ -258,7 +258,7 @@ timestamp.sty, and timestamp.pdf.
 \begin{listing}[\cs{erw_timestamp} in conjunction with iow]
   {label=listing:timest:iow, listing and text}
   \ExplSyntaxOn
-  \syshex_option:n{ timestamp / delim = \c_empty_tl }
+  \erw_option:n{ timestamp / delim = \c_empty_tl }
   \iow_new:N \foo_iow
   \tl_set:Nx \foo_dec { \erw_timestamp:nn{datetime}{10} }
   \tl_set:Nx \foo_hex { \erw_timestamp: }
@@ -283,13 +283,13 @@ timestamp.sty, and timestamp.pdf.
 % 
 % \section{Install}\label{other:install}
 % \begin{enumerate}[label=\emph{\arabic*)}]
-% \item Compile \file{syshex.dtx} (under Unix, \texttt{\$tex syshex.dtx})
-% \item Put the generated \file{syshex.sty} in the search path of the \LaTeX engine
+% \item Compile \file{timestamp.dtx} (under Unix, \texttt{\$tex timestamp.dtx})
+% \item Put the generated \file{timestamp.sty} in the search path of the \LaTeX engine
 % \end{enumerate}
 % 
 % \section{Support}\label{other:support}
 % 
-% This package is available from \url{https://www.ctan.org/pkg/syshex} and \url{https://github.com/rogard/syshex}.
+% This package is available from \url{https://www.ctan.org/pkg/timestamp} and \url{https://github.com/rogard/timestamp}.
 % 
 % \subsection{Platform}
 % \begin{enumerate}[label=\emph{\roman*)}]
@@ -328,7 +328,7 @@ timestamp.sty, and timestamp.pdf.
 % \subsection{Results}
 % 
 % \begin{enumerate}[label=\emph{\arabic*)}]
-% \item \pkg{syshex} \docvers{1}{2} compiles satisfactorily on platform \ref{plat:lin} and engines \ref{eng:tlxx:pdf},  \ref{eng:tlxx:lua}, and \ref{eng:tlxx:xe}
+% \item \pkg{timestamp} \docvers{1}{2} compiles satisfactorily on platform \ref{plat:lin} and engines \ref{eng:tlxx:pdf},  \ref{eng:tlxx:lua}, and \ref{eng:tlxx:xe}
 % \end{enumerate}
 % 
 % \leavevmode
@@ -366,6 +366,7 @@ timestamp.sty, and timestamp.pdf.
 % \changes{\docvers{1}{4}}{2020/04/28}{Rename: \pkg{syhex} to \pkg{timestamp}}
 % \changes{\docvers{1}{4}}{2020/04/28}{Add: \cs{timestamp:nn}}
 % \changes{\docvers{1}{5}}{2020/04/28}{Add: \@@_datetime_join:nnn (fixes a bug) }
+% \changes{\docvers{1}{6}}{2020/04/28}{Fix: minor bugs  }
 % 
 % \PrintChanges
 % \PrintIndex
@@ -455,7 +456,7 @@ timestamp.sty, and timestamp.pdf.
   \exp_args:No
   \use:c{@@_\@@_datetime_period:n{#1}_\@@_datetime_base:n{#2}:}
 }
-\cs_new_protected:Nn \syshex_set_delim:nn
+\cs_new_protected:Nn \@@_set_delim:nn
 {
   \use:c{tl_gset:N#1}
   \g@@_delim_str{#2}
@@ -468,7 +469,7 @@ timestamp.sty, and timestamp.pdf.
   timestamp / delim .code:n =
   {
     \exp_last_unbraced:No
-    \syshex_set_delim:nn{n}{#1}
+    \@@_set_delim:nn{n}{#1}
   },
   timestamp / delim  .value_required:n = true,
   timestamp / delim  .default:n = {-},
@@ -477,7 +478,7 @@ timestamp.sty, and timestamp.pdf.
 %    \end{macrocode}
 % \section{Frontend}
 %    \begin{macrocode}
-\cs_new:Nn\syshex_option:n
+\cs_new_protected:Nn\erw_option:n
 {
   \keys_set:nn{@@}{#1}
 }

@@ -18,7 +18,7 @@
  \ProvidesExplPackage
  {timestamp}                                                                              % Package name
  {2020/04/28}                                                                             % Release date
- {1.5}                                                                                    % Release version
+ {1.6}                                                                                    % Release version
  {timestamp --- (Hexa-)decimal-timestamp }                                                % Description
 \ExplSyntaxOn
 \msg_new:nnn{@@}{datetime / base}{Calling~#1,~arg~must~be~'dec|hex'}
@@ -73,7 +73,7 @@
   \exp_args:No
   \use:c{@@_\@@_datetime_period:n{#1}_\@@_datetime_base:n{#2}:}
 }
-\cs_new_protected:Nn \syshex_set_delim:nn
+\cs_new_protected:Nn \@@_set_delim:nn
 {
   \use:c{tl_gset:N#1}
   \g@@_delim_str{#2}
@@ -83,13 +83,13 @@
   timestamp / delim .code:n =
   {
     \exp_last_unbraced:No
-    \syshex_set_delim:nn{n}{#1}
+    \@@_set_delim:nn{n}{#1}
   },
   timestamp / delim  .value_required:n = true,
   timestamp / delim  .default:n = {-},
   timestamp / delim  .initial:n = {-},
 }
-\cs_new:Nn\syshex_option:n
+\cs_new_protected:Nn\erw_option:n
 {
   \keys_set:nn{@@}{#1}
 }
