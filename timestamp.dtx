@@ -69,13 +69,12 @@ timestamp.sty, and timestamp.pdf.
 \fi
 %</internal> 
 %<package> \NeedsTeXFormat{LaTeX2e}[2020/02/02]
-%<package> \RequirePackage{etoolbox}[2019/09/21]
-%<package> \RequirePackage{l3keys2e}[2020/03/06]
+%<package> \RequirePackage{erw-l3}[2020/04/30]
 %<package> \RequirePackage{xparse}[2020/03/06]
 %<package> \ProvidesExplPackage
 %<package> {timestamp}                                                                              % Package name
-%<package> {2020/04/28}                                                                             % Release date
-%<package> {1.6}                                                                                    % Release version
+%<package> {2020/05/02}                                                                             % Release date
+%<package> {1.7}                                                                                    % Release version
 %<package> {timestamp --- (Hexa-)decimal-timestamp }                                                % Description
 % 
 %<*driver> 
@@ -199,18 +198,32 @@ timestamp.sty, and timestamp.pdf.
 %   
 %   \leavevmode
 %   \refstepcounter{section}
-%   \docsetnameref{\cs{erw_timestamp:nn}}
-%   \label{usage:date:nn} 
-%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{erw_timestamp:nn}}   
-%   \begin{function}{erw_timestamp:nn}
+%   \docsetnameref{\cs{Timestamp}}
+%   \label{usage:timest:main} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{Timestamp}}   
+%   \begin{function}{\Timestamp}
 %     \begin{syntax}
-%       \cs{erw_timestamp:nn}\doceval{date\docpipe{}time\docpipe{}datetime}\doceval{10\docpipe{}16}
+%       \cs{Timestamp}|*|\docopto{date\docpipe{}time\docpipe{}datetime}\docoptd{10\docpipe{}16}
 %     \end{syntax}
 %     \begin{description}
-%     \item[Semantics] Timestamp in base 10 or 16
+%     \item[Semantics] Timestamp in base 10 or 16, optionally prefixed by the `jobname'\cite[l3sys]{interface3}
 %     \end{description}
 %   \end{function}
 %   
+%   \leavevmode
+%   \refstepcounter{section}
+%   \docsetnameref{\cs{TimestampDelimiter}}
+%   \label{usage:timest:delim} 
+%   \addcontentsline{toc}{section}{\protect\numberline{\thesection}\cs{Timestamp}}   
+%   \begin{function}{\Timestamp}
+%     \begin{syntax}
+%       \cs{TimestampDelimiter}\docopto{char}
+%     \end{syntax}
+%     \begin{description}
+%     \item[Semantics] Sets the delimiter used by \nameref{usage:timest:main}
+%     \end{description}
+%   \end{function}
+%
 %   \clearpage
 %   \part{Listing}\label{part:listing}
 %   
@@ -230,20 +243,16 @@ timestamp.sty, and timestamp.pdf.
 %   #2}
 %   
 %   \phantomsection\addcontentsline{toc}{section}
-%   {\ref{listing:timest:alone}. \cs{erw_timestamp:nn} alone}
+%   {\ref{listing:dec}. Base 10}
 %   \iffalse
 %<*guardlisting>   
 %   \fi
-\begin{listing}[\cs{erw_timestamp:nn}]
-  {label=listing:timest:alone, listing and text}
+\begin{listing}[Base 10]
+  {label=listing:dec, listing and text}
   \ExplSyntaxOn
-  \noindent\erw_timestamp:nn{date}{10}{-}
-  \noindent\erw_timestamp:nn{time}{10}\\
-  \noindent\erw_timestamp:nn{datetime}{10}\\
-  \erw_timestamp:nn{date}{16}{\%}
-  \erw_timestamp:nn{time}{16}\\
-  \erw_option:n{ timestamp / delim = {\%} }
-  \erw_timestamp:nn{datetime}{16}\\
+  \noindent\Timestamp[date]<10>{-}\Timestamp[time]<10>\\
+  \Timestamp[datetime]<10>\\
+  \Timestamp*[datetime]<10>\\
   \ExplSyntaxOff
 \end{listing}
 % \iffalse
@@ -251,24 +260,16 @@ timestamp.sty, and timestamp.pdf.
 % \fi
 % 
 % \phantomsection\addcontentsline{toc}{section}
-% {\ref{listing:timest:iow}. \cs{erw_timestamp:nn} in conjunction with iow}
+% {\ref{listing:hex}. Base 16}
 % \iffalse
 %<*guardlisting> 
 % \fi
-\begin{listing}[\cs{erw_timestamp} in conjunction with iow]
-  {label=listing:timest:iow, listing and text}
-  \ExplSyntaxOn
-  \erw_option:n{ timestamp / delim = \c_empty_tl }
-  \iow_new:N \foo_iow
-  \tl_set:Nx \foo_dec { \erw_timestamp:nn{datetime}{10} }
-  \tl_set:Nx \foo_hex { \erw_timestamp: }
-  \iow_open:Nn \foo_iow{\foo_hex}
-  \iow_now:Nn\foo_iow{Hello,\ world!}
-  \iow_close:N \foo_iow
-  D:\foo_dec\\
-  \file_timestamp:n{\foo_hex}\\
-  \file_input:n{\foo_hex}
-  \ExplSyntaxOff
+\begin{listing}[Base 16]
+  {label=listing:hex, listing and text}
+  \noindent\Timestamp[date]<16>{\%}\Timestamp[time]<16>\\
+  \TimestampDelimiter[\%]
+  \Timestamp\\
+  \Timestamp*
 \end{listing}
 % \iffalse
 %</guardlisting> 
@@ -367,6 +368,10 @@ timestamp.sty, and timestamp.pdf.
 % \changes{\docvers{1}{4}}{2020/04/28}{Add: \cs{timestamp:nn}}
 % \changes{\docvers{1}{5}}{2020/04/28}{Add: \@@_datetime_join:nnn (fixes a bug) }
 % \changes{\docvers{1}{6}}{2020/04/28}{Fix: minor bugs  }
+% \changes{\docvers{1}{7}}{2020/05/01}{Add: dependency to \pkg{erw-l3}}
+% \changes{\docvers{1}{7}}{2020/04/28}{Remove: all non doc-level commands}
+% \changes{\docvers{1}{7}}{2020/05/01}{Add: \cs{Timestamp}}
+% \changes{\docvers{1}{7}}{2020/05/01}{Add: \cs{TimestampDelimiter}}
 % 
 % \PrintChanges
 % \PrintIndex
@@ -387,115 +392,23 @@ timestamp.sty, and timestamp.pdf.
 %<@@=timestamp>      
 \ExplSyntaxOn
 %    \end{macrocode}
-% \section{Backend}
+% \section{Document level}
 %    \begin{macrocode}
-\msg_new:nnn{@@}{datetime / base}{Calling~#1,~arg~must~be~'dec|hex'}
-\msg_new:nnn{@@}{datetime / period}{Calling~#1,~arg~must~be~'date|time|datetime'}
-%    \end{macrocode}
-% \begin{macro}{\@@_date:N, \@@_date_dec:, \@@_date_hex:}
-%    \begin{macrocode}
-\cs_new:Nn \@@_date_dec:
+\NewDocumentCommand\Timestamp{sO{datetime}D<>{16}}
 {
-  \int_eval:n
+  \IfBooleanTF{#1}
   {
-    \c_sys_year_int * 10000
-    +\c_sys_month_int * 100
-    +\c_sys_day_int *  1
+    \erw_sys_jobnametimestamp:nn{#2}{#3}
+  }
+  {
+    \erw_sys_timestamp:nn{#2}{#3}
   }
 }
-\cs_new:Nn \@@_date:N{\int_to_hex:n{\@@_date_dec:}}
-\cs_new:Nn \@@_date_hex:{\int_to_hex:n{\@@_date_dec:}}
-%    \end{macrocode}
-% \end{macro}
-% \begin{macro}{\@@_time_dec:, \@@_time_hex}
-%    \begin{macrocode}
-\cs_new:Nn \@@_time_dec:
+\NewDocumentCommand\TimestampDelimiter{o}
 {
-  \int_eval:n
-  {
-    \c_sys_hour_int * 100 
-    +\c_sys_minute_int * 1 
-  }
-}
-\cs_new:Nn\@@_time_hex:{\int_to_hex:n{\@@_time_dec:}}
-%    \end{macrocode}
-% \end{macro}
-% \begin{macro}{\@@_datetime_base:n,  \@@_datetime_dec:n, \@@_datetime_join:nn, \@@_datetime_hex:n, \@@_datetime_period:n }
-%    \begin{macrocode}
-\cs_new:Nn\@@_datetime_base:n
-{
-  \int_case:nnTF{#1}
-  {
-    {10}{dec}
-    {16}{hex}
-  }
-  {\c_empty_tl}
-  {\msg_error:nnn{@@}{datetime / base}{\@@_datetime_base:n{#1}}}
-}
-\cs_new:Nn\@@_datetime_join:nnn{#1#2#3}
-\cs_new:Nn\@@_datetime_join:nn{\@@_datetime_join:nnn{#1}{\g@@_delim_str}{#2}}
-\cs_new:Nn\@@_datetime_period:n
-{
-  \str_case:nnTF{#1}
-  {
-    {date}{date}
-    {time}{time}
-    {datetime}{datetime}
-  }
-  {\c_empty_tl}
-  {\msg_error:nnn{@@}{ datetime / period }{\@@_datetime_period:n{#1}}}
-}
-\cs_new:Nn\@@_datetime_dec: {\@@_datetime_join:nn{\@@_date_dec:}{\@@_time_dec:}}
-\cs_new:Nn\@@_datetime_hex: {\@@_datetime_join:nn{\@@_date_hex:}{\@@_time_hex:}}
-%    \end{macrocode}
-% \end{macro}
-% \begin{macro}{\@@_timestamp:nn}
-%    \begin{macrocode}
-\cs_new:Nn\@@_timestamp:nn
-{
-  \exp_args:No
-  \use:c{@@_\@@_datetime_period:n{#1}_\@@_datetime_base:n{#2}:}
-}
-\cs_new_protected:Nn \@@_set_delim:nn
-{
-  \use:c{tl_gset:N#1}
-  \g@@_delim_str{#2}
-}
-%    \end{macrocode}
-% \end{macro}
-%    \begin{macrocode}
-\keys_define:nn{@@}
-{  
-  timestamp / delim .code:n =
-  {
-    \exp_last_unbraced:No
-    \@@_set_delim:nn{n}{#1}
-  },
-  timestamp / delim  .value_required:n = true,
-  timestamp / delim  .default:n = {-},
-  timestamp / delim  .initial:n = {-},
-}
-%    \end{macrocode}
-% \section{Frontend}
-%    \begin{macrocode}
-\cs_new_protected:Nn\erw_option:n
-{
-  \keys_set:nn{@@}{#1}
-}
-\cs_new:Nn\erw_timestamp:nn
-{
-  \@@_timestamp:nn{#1}{#2}
-}
-\cs_new:Nn\erw_timestamp:
-{
-  \@@_timestamp:nn{datetime}{16}
-}
-%    \end{macrocode}
-% \section{Document}
-%    \begin{macrocode}
-\NewDocumentCommand\Timestamp{O{datetime}E{^}{{16}}}
-{
-  \erw_timestamp:nn{#1}{#2}
+  \IfValueTF{#1}
+  { \erw_option:n{ sys / timestamp_delim = #1 } }
+  { \erw_option:n{ sys / timestamp_delim } }
 }
 %    \end{macrocode}
 % \section{Closing}

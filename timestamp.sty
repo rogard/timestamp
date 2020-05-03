@@ -12,98 +12,29 @@
 %% ----------------------------------------------------------------------------
 %% 
  \NeedsTeXFormat{LaTeX2e}[2020/02/02]
- \RequirePackage{etoolbox}[2019/09/21]
- \RequirePackage{l3keys2e}[2020/03/06]
+ \RequirePackage{erw-l3}[2020/04/30]
  \RequirePackage{xparse}[2020/03/06]
  \ProvidesExplPackage
  {timestamp}                                                                              % Package name
- {2020/04/28}                                                                             % Release date
- {1.6}                                                                                    % Release version
+ {2020/05/02}                                                                             % Release date
+ {1.7}                                                                                    % Release version
  {timestamp --- (Hexa-)decimal-timestamp }                                                % Description
 \ExplSyntaxOn
-\msg_new:nnn{@@}{datetime / base}{Calling~#1,~arg~must~be~'dec|hex'}
-\msg_new:nnn{@@}{datetime / period}{Calling~#1,~arg~must~be~'date|time|datetime'}
-\cs_new:Nn \@@_date_dec:
+\NewDocumentCommand\Timestamp{sO{datetime}D<>{16}}
 {
-  \int_eval:n
+  \IfBooleanTF{#1}
   {
-    \c_sys_year_int * 10000
-    +\c_sys_month_int * 100
-    +\c_sys_day_int *  1
+    \erw_sys_jobnametimestamp:nn{#2}{#3}
+  }
+  {
+    \erw_sys_timestamp:nn{#2}{#3}
   }
 }
-\cs_new:Nn \@@_date:N{\int_to_hex:n{\@@_date_dec:}}
-\cs_new:Nn \@@_date_hex:{\int_to_hex:n{\@@_date_dec:}}
-\cs_new:Nn \@@_time_dec:
+\NewDocumentCommand\TimestampDelimiter{o}
 {
-  \int_eval:n
-  {
-    \c_sys_hour_int * 100
-    +\c_sys_minute_int * 1
-  }
-}
-\cs_new:Nn\@@_time_hex:{\int_to_hex:n{\@@_time_dec:}}
-\cs_new:Nn\@@_datetime_base:n
-{
-  \int_case:nnTF{#1}
-  {
-    {10}{dec}
-    {16}{hex}
-  }
-  {\c_empty_tl}
-  {\msg_error:nnn{@@}{datetime / base}{\@@_datetime_base:n{#1}}}
-}
-\cs_new:Nn\@@_datetime_join:nnn{#1#2#3}
-\cs_new:Nn\@@_datetime_join:nn{\@@_datetime_join:nnn{#1}{\g@@_delim_str}{#2}}
-\cs_new:Nn\@@_datetime_period:n
-{
-  \str_case:nnTF{#1}
-  {
-    {date}{date}
-    {time}{time}
-    {datetime}{datetime}
-  }
-  {\c_empty_tl}
-  {\msg_error:nnn{@@}{ datetime / period }{\@@_datetime_period:n{#1}}}
-}
-\cs_new:Nn\@@_datetime_dec: {\@@_datetime_join:nn{\@@_date_dec:}{\@@_time_dec:}}
-\cs_new:Nn\@@_datetime_hex: {\@@_datetime_join:nn{\@@_date_hex:}{\@@_time_hex:}}
-\cs_new:Nn\@@_timestamp:nn
-{
-  \exp_args:No
-  \use:c{@@_\@@_datetime_period:n{#1}_\@@_datetime_base:n{#2}:}
-}
-\cs_new_protected:Nn \@@_set_delim:nn
-{
-  \use:c{tl_gset:N#1}
-  \g@@_delim_str{#2}
-}
-\keys_define:nn{@@}
-{
-  timestamp / delim .code:n =
-  {
-    \exp_last_unbraced:No
-    \@@_set_delim:nn{n}{#1}
-  },
-  timestamp / delim  .value_required:n = true,
-  timestamp / delim  .default:n = {-},
-  timestamp / delim  .initial:n = {-},
-}
-\cs_new_protected:Nn\erw_option:n
-{
-  \keys_set:nn{@@}{#1}
-}
-\cs_new:Nn\erw_timestamp:nn
-{
-  \@@_timestamp:nn{#1}{#2}
-}
-\cs_new:Nn\erw_timestamp:
-{
-  \@@_timestamp:nn{datetime}{16}
-}
-\NewDocumentCommand\Timestamp{O{datetime}E{^}{{16}}}
-{
-  \erw_timestamp:nn{#1}{#2}
+  \IfValueTF{#1}
+  { \erw_option:n{ sys / timestamp_delim = #1 } }
+  { \erw_option:n{ sys / timestamp_delim } }
 }
 \ExplSyntaxOff
 %% 
